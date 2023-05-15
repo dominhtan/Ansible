@@ -1,0 +1,8 @@
+- name: Deploy server
+  hosts: $host
+  become: true
+  tasks:
+    - name: Deploy server
+      ansible.builtin.shell:
+        cmd:
+  yum update -y
