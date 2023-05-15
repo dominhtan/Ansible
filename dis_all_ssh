@@ -1,0 +1,21 @@
+ - name: Disable SSH password authen
+   hosts: $host
+   become: true
+   gather_facts: false
+
+   tasks:
+   - name: Disable SSH password authentication
+     lineinfile:
+           dest: /etc/ssh/sshd_config
+           regexp: '^PasswordAuthentication'
+           line: "PasswordAuthentication no"
+           state: present
+           backup: yes
+     notify:
+       - restart ssh
+
+   handlers:
+   - name: restart ssh
+     service:
+       name: sshd
+       state: restarted
