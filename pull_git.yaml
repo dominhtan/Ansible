@@ -1,0 +1,21 @@
+- hosts: $host
+  tasks:
+    - name: Remove file if it exists
+      file:
+        path: /$source_code/index.lock
+        state: absent
+      register: file_stats
+    - name: Clone a github repository
+      git:
+        repo: git@github.com:$repo_git
+        dest: /$source_code/
+        clone: yes
+        update: yes
+        force: yes
+        version: develop
+    - name: Set permissions and chmod folder
+      ansible.builtin.file:
+        path: /$source_code/
+        owner: apache
+        group: apache
+        recurse: yes
